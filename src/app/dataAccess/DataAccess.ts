@@ -28,7 +28,6 @@ class DataAccess {
       .authenticate()
       .then(() => {
         console.log('Database connection has been established successfully ✅');
-        this.sequelizeInstance.sync();
       })
       .catch((err) => {
         console.error('❌ Unable to connect to the database: ', err);
