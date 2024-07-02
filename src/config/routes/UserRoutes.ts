@@ -1,5 +1,7 @@
 import express = require('express');
 import UserController = require('../../controllers/UserController');
+import BodyValidator from '../middlewares/BodyValidator';
+import { loginSchema, registerSchema } from '../../schemas/UserSchema';
 
 var router = express.Router();
 class UserRoutes {
@@ -9,11 +11,20 @@ class UserRoutes {
     this._userController = new UserController();
   }
   get routes() {
-    var controller = this._userController;
+    const controller = this._userController;
 
-    router.get('/users', controller.fetchAll);
-    router.post('/users', controller.create);
-    router.get('/users/:_id', controller.findById);
+    const bodyValidator = new BodyValidator();
+
+    router.post(
+      '/login',
+      bodyValidator.validate(loginSchema),
+      controller.login
+    );
+    router.post(
+      '/register',
+      bodyValidator.validate(registerSchema),
+      controller.register
+    );
 
     return router;
   }
