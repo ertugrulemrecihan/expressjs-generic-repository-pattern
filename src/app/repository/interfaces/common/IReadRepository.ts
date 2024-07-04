@@ -1,8 +1,12 @@
 interface IReadRepository<T> {
-  fetchAll: (callback: (error: any, result: T[] | null) => void) => void;
+  fetchAll: (
+    callback: (error: any, result: T[] | null) => void,
+    pagination?: Partial<{ limit: number; offset: number }>
+  ) => void;
   fetchByQuery: (
     query: any,
-    callback: (error: any, result: T[] | null) => void
+    callback: (error: any, result: T[] | null) => void,
+    pagination?: Partial<{ limit: number; offset: number }>
   ) => void;
   findById: (
     id: number,

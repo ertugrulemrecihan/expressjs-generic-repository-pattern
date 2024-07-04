@@ -12,10 +12,14 @@ class BaseRepository<T extends Model<any, any>>
   }
 
   async fetchAll(
-    callback: (error: any, result: T[] | null) => void
+    callback: (error: any, result: T[] | null) => void,
+    pagination: Partial<{ limit: number; offset: number }> = {}
   ): Promise<void> {
     try {
-      const items = await this._model.findAll();
+      const items = await this._model.findAll({
+        limit: pagination.limit || undefined,
+        offset: pagination.offset || undefined,
+      });
       callback(null, items);
     } catch (error) {
       callback(error, null);
@@ -38,13 +42,16 @@ class BaseRepository<T extends Model<any, any>>
 
   async fetchByQuery(
     query: Partial<T['_attributes']>,
-    callback: (error: any, result: T[] | null) => void
+    callback: (error: any, result: T[] | null) => void,
+    pagination: Partial<{ limit: number; offset: number }> = {}
   ): Promise<void> {
     try {
       if (!query) throw new Error('Query is required');
 
       const items = await this._model.findAll({
         where: { ...(query as T['_attributes']) },
+        limit: pagination.limit || undefined,
+        offset: pagination.offset || undefined,
       });
       callback(null, items);
     } catch (error) {
