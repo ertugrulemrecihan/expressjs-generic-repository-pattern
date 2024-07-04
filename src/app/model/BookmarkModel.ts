@@ -11,12 +11,8 @@ class BookmarkModel {
     return this._bookmarkModel.id;
   }
 
-  get userId(): number {
-    return this._bookmarkModel.user_id;
-  }
-
   get bookId(): string {
-    return this._bookmarkModel.book_id;
+    return this._bookmarkModel.bookId;
   }
 }
 
