@@ -40,6 +40,7 @@ User.init(
   {
     tableName: 'users',
     sequelize: sequelizeInstance,
+    modelName: 'User',
   }
 );
 

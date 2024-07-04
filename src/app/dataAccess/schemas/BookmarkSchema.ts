@@ -9,8 +9,7 @@ class Bookmark
   implements IBookmarkAttributes
 {
   public id!: number;
-  public user_id!: number;
-  public book_id!: string;
+  public bookId!: string;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -23,11 +22,7 @@ Bookmark.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    book_id: {
+    bookId: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -35,12 +30,13 @@ Bookmark.init(
   {
     tableName: 'bookmarks',
     sequelize: sequelizeInstance,
+    modelName: 'Bookmark',
   }
 );
 
 Bookmark.belongsTo(User, {
-  foreignKey: 'user_id',
-  as: 'user',
+  onDelete: 'CASCADE',
 });
+User.hasMany(Bookmark);
 
 export default Bookmark;
