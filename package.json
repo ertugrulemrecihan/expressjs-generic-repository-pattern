@@ -1,6 +1,6 @@
 {
-  "name": "wheelbees-backend-ch",
-  "description": "This project for WheelBees Backend challenge",
+  "name": "expressjs-generic-repository-pattern",
+  "description": "ExpressJS Generic Repository Pattern",
   "version": "1.0.0",
   "main": "dist/app.ts",
   "scripts": {
@@ -8,7 +8,12 @@
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "expressjs",
+    "generic",
+    "repository",
+    "pattern"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -21,6 +26,7 @@
     "jsonwebtoken": "^9.0.2",
     "method-override": "^3.0.0",
     "mysql2": "^3.10.2",
+    "redis": "^4.6.15",
     "sequelize": "^6.37.3",
     "zod": "^3.23.8"
   },

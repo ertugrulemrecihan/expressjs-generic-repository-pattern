@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./config/helpers/redis/RedisLoader')();
 import express = require('express');
 import cors = require('cors');
 import MiddlewaresBase = require('./config/middlewares/base/MiddlewareBase');
