@@ -8,8 +8,14 @@ class BookmarkBusiness implements IBookmarkBusiness {
     this._bookmarkRepository = new BookmarkRepository();
   }
 
-  fetchAll(callback: (error: any, result: any) => void) {
-    this._bookmarkRepository.fetchAll(callback);
+  fetchAll(
+    callback: (error: any, result: any) => void,
+    pagination: Partial<{ limit: number; offset: number }> = {}
+  ) {
+    this._bookmarkRepository.fetchAll(callback, {
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
   }
 
   findById(id: number, callback: (error: any, result: any) => void) {
@@ -18,9 +24,13 @@ class BookmarkBusiness implements IBookmarkBusiness {
 
   fetchByQuery(
     query: Partial<any>,
-    callback: (error: any, result: any) => void
+    callback: (error: any, result: any) => void,
+    pagination: Partial<{ limit: number; offset: number }> = {}
   ) {
-    this._bookmarkRepository.fetchByQuery(query, callback);
+    this._bookmarkRepository.fetchByQuery(query, callback, {
+      limit: pagination.limit,
+      offset: pagination.offset,
+    });
   }
 
   findOneByQuery(
