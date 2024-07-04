@@ -8,7 +8,9 @@ class MiddlewaresBase {
   static get configuration() {
     var app = express();
 
-    sequelizeInstance.sync();
+    sequelizeInstance.sync({
+      alter: true,
+    });
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));

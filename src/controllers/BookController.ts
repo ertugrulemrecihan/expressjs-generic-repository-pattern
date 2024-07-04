@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { books_v1, google } from 'googleapis';
 import ApiDataSuccess from '../config/responses/success/ApiDataSuccess';
 import httpStatus from 'http-status';
+import RedisHelper from '../config/helpers/redis/RedisHelper';
 
 class BookController {
   readonly books: books_v1.Books;
@@ -71,6 +72,10 @@ class BookController {
       ...booksList.data,
     };
 
+    if (response.items && response.items?.length > 0) {
+      await RedisHelper.cache(req, response.items);
+    }
+
     ApiDataSuccess.sendData(
       response,
       'Books fetched successfully',
@@ -114,6 +119,10 @@ class BookController {
     const response = {
       ...book.data,
     };
+
+    if (response) {
+      await RedisHelper.cache(req, response);
+    }
 
     ApiDataSuccess.sendData(
       response,

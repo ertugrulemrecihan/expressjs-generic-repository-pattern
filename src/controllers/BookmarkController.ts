@@ -5,6 +5,7 @@ import ApiError from '../config/responses/error/ApiError';
 import httpStatus = require('http-status');
 import ApiDataSuccess from '../config/responses/success/ApiDataSuccess';
 import { google } from 'googleapis';
+import RedisHelper = require('../config/helpers/redis/RedisHelper');
 
 class BookmarkController implements IBaseController<BookmarkBusiness> {
   async fetchMyBookmarks(
@@ -61,6 +62,10 @@ class BookmarkController implements IBaseController<BookmarkBusiness> {
           }
         }
 
+        if (response.length > 0) {
+          await RedisHelper.cache(req, response);
+        }
+
         ApiDataSuccess.sendData(
           response,
           'Bookmarks fetched',
@@ -89,12 +94,14 @@ class BookmarkController implements IBaseController<BookmarkBusiness> {
 
     bookmarkBusiness.findOneByQuery(
       { UserId: userId, bookId },
-      (error, result) => {
+      async (error, result) => {
         if (error) {
           return next(
             new ApiError(error.message, httpStatus.INTERNAL_SERVER_ERROR)
           );
         }
+
+        await RedisHelper.removeByClassName(req.controllerName);
 
         if (!result) {
           bookmarkBusiness.create(

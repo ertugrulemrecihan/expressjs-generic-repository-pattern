@@ -1,6 +1,7 @@
 import express = require('express');
 import BookmarkController = require('../../controllers/BookmarkController');
 import authenticateMiddleware from '../middlewares/AuthenticateMiddleware';
+import cache = require('../middlewares/CacheMiddleware');
 
 var router = express.Router();
 class BookmarkRoutes {
@@ -12,8 +13,18 @@ class BookmarkRoutes {
   get routes() {
     const controller = this._bookmarkController;
 
-    router.get('/', authenticateMiddleware, controller.fetchMyBookmarks);
-    router.post('/:bookId', authenticateMiddleware, controller.toggleBookmark);
+    router.get(
+      '/',
+      authenticateMiddleware,
+      cache(this._bookmarkController),
+      controller.fetchMyBookmarks
+    );
+    router.post(
+      '/:bookId',
+      authenticateMiddleware,
+      cache(this._bookmarkController),
+      controller.toggleBookmark
+    );
 
     return router;
   }
